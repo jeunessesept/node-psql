@@ -13,10 +13,10 @@ const client = new pg.Client({
  const queryTable = `
   CREATE TABLE usersList (
       "id" int,
-      "firstName" varchar (10) not null,
-      "lastName" varchar (20) not null,
+      "firstName" varchar not null,
+      "lastName" varchar  not null,
       "email" varchar not null,
-      "ip" varchar (30)
+      "ip" varchar 
   );
   `;
 

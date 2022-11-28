@@ -4,9 +4,9 @@
   "description": "exercie with node-postgres library",
   "main": "index.mjs",
   "scripts": {
-    "fullTable" : "node fullTable.mjs",
-    "fillTable" : "node fillTable.mjs",
-    "createTable" : "node createTable.mjs",
+    "fullTable": "node fullTable.mjs",
+    "fillTable": "node fillTable.mjs",
+    "createTable": "node createTable.mjs",
     "dev": "nodemon index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +15,8 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

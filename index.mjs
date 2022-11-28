@@ -1,42 +1,68 @@
-import { users } from "./users/users.mjs";
 import pg from "pg";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { users } from "./users/users.mjs";
+import express from "express";
+import bodyParser from "body-parser";
+import { v4 as uuidV4 } from "uuid";
 
-const client = new pg.Client({
-  user: "jiacintobranducci",
-  host: "localhost",
-  port: 5432,
-  database: "nodepsql_project",
-  password: `${process.env.PSQL_PROJECT_KEY}`
+const app = express();
+
+app.use(bodyParser.json());
+
+app.get("/users", (req, res) => {
+  res.json(users);
 });
 
+app.post("/users", (req, res) => {
+  const { id, firstName, lastName, ip } = req.body;
 
-//  const queryUsers = ` 
-//      insert into userslist (id, firstName, lastName, email, ip)
-//      values (1, 'Jiacinto', 'Branducci', 'bjzjz', '12343332')
-//  `;
+  users.push({
+    id,
+    firstName,
+    lastName,
+    ip: uuidV4(),
+  });
 
-const dropTable = `drop table if exists userslist;`
+  res.json(users);
+});
 
-client.query(dropTable, (err, res) => {
-    if (err){
-        console.error(err);
-        return;
+app.get("/users/:id", (req, res) => {
+  const userId = req.params.id;
+
+  const user = users.find((user) => {
+    return user.id === Number(userId);
+  });
+
+  res.json(user);
+});
+
+app.delete("/users/:id", (req, res) => {
+  const userId = req.params.id;
+
+  const user = users.filter((user) => {
+    return user.id !== Number(userId);
+  });
+
+  res.json(user);
+});
+
+app.patch("/users/:id", (req, res) => {
+  let userId = req.params.id;
+  let { id, firstName, lastName, email, ip } = req.body;
+
+  let u = users.map((user) => {
+    if (user.id === userId) {
+      return {
+        id,
+        firstName,
+        lastName,
+        ip,
+      };
     }
-    console.log("drop with success");
-    client.end();
-})
+    return user;
+  });
+  res.json(u);
+});
 
-
-// client.query(queryUsers, (err, res) => {
-//    if (err) {
-//      console.error(err);
-//      return;
-//    }
-//    console.log("add with success");
-//    client.end();
-//  });
-
-client.connect()
-.then(() => console.log("hello there"));
+app.listen(3001, () => {
+  console.log("app is runing");
+});
