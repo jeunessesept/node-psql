@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const client = new pg.Client({
-  user: "jiacintobranducci",
+  user: "nodepsql_project_admin",
   host: "localhost",
   port: 5432,
   database: "nodepsql_project",
@@ -16,9 +16,8 @@ client
   .then(() => {
     client.query("delete from userslist")
     users.forEach((user) => {
-      let { id, firstName, lastName, email, ip } = user;
-      client.query("insert into userslist values ($1, $2, $3, $4, $5)", [
-        id,
+      let { firstName, lastName, email, ip } = user;
+      client.query("insert into userslist values ($1, $2, $3, $4)", [
         firstName,
         lastName,
         email,
