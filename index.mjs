@@ -55,6 +55,7 @@ app.patch("/users/:id", (req, res) => {
         id,
         firstName,
         lastName,
+        email,
         ip,
       };
     }

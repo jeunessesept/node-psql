@@ -13,7 +13,8 @@ const client = new pg.Client({
 
 client
   .connect()
-  .then(() =>
+  .then(() => {
+    client.query("delete from userslist")
     users.forEach((user) => {
       let { id, firstName, lastName, email, ip } = user;
       client.query("insert into userslist values ($1, $2, $3, $4, $5)", [
@@ -24,8 +25,7 @@ client
         ip,
       ]);
     })
-  )
-
+  })
   .then(() => client.query("select * from userslist"))
   .then((results) => console.table(results.rows))
   .catch((e) => console.log(e))

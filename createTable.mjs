@@ -20,14 +20,12 @@ const client = new pg.Client({
   );
   `;
 
-client.query(queryTable, (err, res) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log("Table is successfully created");
-  client.end();
-});
 
-client.connect()
-.then(() => console.log("hello there"));
+
+client
+  .connect()
+  .then(() => console.log("hello there"))
+  .then(() => client.query('drop table if exists userslist'))
+  .then(() => client.query(queryTable))
+  .catch((error) => console.error(error))
+  .finally(() => client.end())
