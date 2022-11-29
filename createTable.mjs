@@ -11,7 +11,7 @@ const client = new pg.Client({
 });
 
  const queryTable = `
-  CREATE TABLE usersList (
+  CREATE TABLE if not exists usersList (
       "id" int,
       "firstName" varchar not null,
       "lastName" varchar  not null,
@@ -25,7 +25,7 @@ const client = new pg.Client({
 client
   .connect()
   .then(() => console.log("hello there"))
-  .then(() => client.query('drop table if exists userslist'))
+  // .then(() => client.query('drop table if exists userslist'))  => plus besoin de cette ligne si "create table IF NOT EXISTS dans queryTable"
   .then(() => client.query(queryTable))
   .catch((error) => console.error(error))
   .finally(() => client.end())
