@@ -3,66 +3,27 @@ import { users } from "./users/users.mjs";
 import express from "express";
 import bodyParser from "body-parser";
 import { v4 as uuidV4 } from "uuid";
+import {
+  getUsers,
+  getOneUser,
+  deleteUser,
+  addUser,
+  updateUser,
+} from "./queries.mjs";
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.get("/users", (req, res) => {
-  res.json(users);
-});
+app.get("/users", getUsers);
 
-app.post("/users", (req, res) => {
-  const { id, firstName, lastName, ip } = req.body;
+app.get("/users/:id", getOneUser);
 
-  users.push({
-    id,
-    firstName,
-    lastName,
-    ip: uuidV4(),
-  });
+app.post("/users", addUser);
 
-  res.json(users);
-});
+app.delete("/users/:id", deleteUser);
 
-app.get("/users/:id", (req, res) => {
-  const userId = req.params.id;
-
-  const user = users.find((user) => {
-    return user.id === Number(userId);
-  });
-
-  res.json(user);
-});
-
-app.delete("/users/:id", (req, res) => {
-  const userId = req.params.id;
-
-  const user = users.filter((user) => {
-    return user.id !== Number(userId);
-  });
-
-  res.json(user);
-});
-
-app.patch("/users/:id", (req, res) => {
-  let userId = req.params.id;
-  let { id, firstName, lastName, email, ip } = req.body;
-
-  let u = users.map((user) => {
-    if (user.id === userId) {
-      return {
-        id,
-        firstName,
-        lastName,
-        email,
-        ip,
-      };
-    }
-    return user;
-  });
-  res.json(u);
-});
+app.put("/users/:id", updateUser);
 
 app.listen(3001, () => {
   console.log("app is runing");

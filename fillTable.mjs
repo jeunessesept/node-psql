@@ -11,13 +11,17 @@ const client = new pg.Client({
   password: `${process.env.PSQL_PROJECT_KEY}`,
 });
 
+
+
+
 client
   .connect()
   .then(() => {
     client.query("delete from userslist")
     users.forEach((user) => {
-      let { firstName, lastName, email, ip } = user;
-      client.query("insert into userslist values ($1, $2, $3, $4)", [
+      let { id, firstName, lastName, email, ip } = user;
+      client.query("insert into userslist values ($1, $2, $3, $4, $5)", [
+        id,
         firstName,
         lastName,
         email,

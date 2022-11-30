@@ -12,6 +12,7 @@ const client = new pg.Client({
 
  const queryTable = `
   CREATE TABLE if not exists usersList (
+      "id" serial,
       "firstName" varchar not null,
       "lastName" varchar  not null,
       "email" varchar not null,
