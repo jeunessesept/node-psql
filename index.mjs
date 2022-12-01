@@ -13,6 +13,10 @@ import {
 
 const app = express();
 
+app.get('/', (request, response) => {
+  response.send('api exercice')
+})
+
 app.use(bodyParser.json());
 
 app.get("/users", getUsers);
