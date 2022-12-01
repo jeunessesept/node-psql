@@ -33,13 +33,13 @@ export const getOneUser = (request, response) => {
 };
 
 export const addUser = (request, response) => {
-    const { id, firstName, lastName, email, ip } = request.body;
+    const { id, firstname, lastname, email, ip } = request.body;
     pool.query(
         'insert into userslist values ($1, $2, $3, $4, $5) returning *',
         [
             id,
-            firstName,
-            lastName,
+            firstname,
+            lastname,
             email,
             ip
         ],
@@ -66,13 +66,13 @@ export const deleteUser = (request, response) => {
 }
 
 export const updateUser = (request, response) => {
-    const id = parseInt(request, response);
-    const { firstName } = request.body;
+    const id = parseInt(request.params.id);
+    const { firstname } = request.body;
 
     pool.query(
-        'update userslist set firstName = $1  where id = $2',
+        'UPDATE userslist set firstname = $1  WHERE id = $2',
         [
-            firstName,
+            firstname,
             id
         ],
         (error, results) => {
